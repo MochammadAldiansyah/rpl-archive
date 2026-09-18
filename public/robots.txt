@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# ⚠️ Ganti domain di bawah setelah deploy
+Sitemap: https://rpl1-antartika.sch.id/sitemap.xml

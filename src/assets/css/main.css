@@ -1,0 +1,207 @@
+@import 'tailwindcss';
+
+/* ============================================================
+   BRUTALIST DESIGN TOKENS
+   Tailwind v4 exposes every token below as a utility,
+   e.g. --color-acid  ->  bg-acid / text-acid / border-acid
+        --shadow-brutal ->  shadow-brutal
+        --font-display  ->  font-display
+   ============================================================ */
+@theme {
+  /* --- Core palette: stark, high-contrast, no gradients --- */
+  --color-ink: #0a0a0a; /* pitch black  */
+  --color-paper: #fafafa; /* stark white  */
+  --color-acid: #ffe600; /* vibrant yellow */
+  --color-electric: #2b5cff; /* vibrant blue  */
+  --color-blood: #ff2d2d; /* vibrant red   */
+  --color-slime: #00d46a; /* accent green  */
+  --color-concrete: #c9c9c9; /* muted grey    */
+
+  /* --- Typography --- */
+  --font-display: 'Space Grotesk', 'Arial Black', sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* --- Harsh, solid, zero-blur shadows --- */
+  --shadow-brutal-xs: 2px 2px 0px 0px #0a0a0a;
+  --shadow-brutal-sm: 4px 4px 0px 0px #0a0a0a;
+  --shadow-brutal: 8px 8px 0px 0px #0a0a0a;
+  --shadow-brutal-lg: 12px 12px 0px 0px #0a0a0a;
+  --shadow-brutal-xl: 16px 16px 0px 0px #0a0a0a;
+
+  /* --- Motion --- */
+  --ease-brutal: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* --- Custom animations --- */
+  --animate-marquee: marquee 28s linear infinite;
+  --animate-marquee-rev: marquee-rev 28s linear infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes marquee-rev {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+@layer base {
+  html {
+    /* Lenis drives scrolling; native smooth-scroll must stay off. */
+    scroll-behavior: auto;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-paper font-body text-ink antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Brutalist default: sharp corners everywhere. */
+  * {
+    border-radius: 0;
+  }
+
+  ::selection {
+    @apply bg-acid text-ink;
+  }
+
+  /* Thick, obvious focus ring — accessibility that fits the aesthetic. */
+  :focus-visible {
+    outline: 3px solid var(--color-electric);
+    outline-offset: 2px;
+  }
+
+  /* Bold, chunky scrollbar. */
+  ::-webkit-scrollbar {
+    width: 14px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-paper);
+    border-left: 3px solid var(--color-ink);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-ink);
+    border: 3px solid var(--color-paper);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-electric);
+  }
+}
+
+/* ============================================================
+   COMPONENT PRIMITIVES
+   Reusable brutalist building blocks. Kept small and DRY so
+   section components stay declarative.
+   ============================================================ */
+@layer components {
+  /* Thick-bordered surface with a solid offset shadow. */
+  .brutal-box {
+    @apply border-4 border-ink bg-paper shadow-brutal;
+  }
+
+  /* Interactive surface: lifts toward the shadow, shadow collapses. */
+  .brutal-interactive {
+    @apply transition-all duration-200 ease-out
+           hover:-translate-x-1 hover:-translate-y-1 hover:shadow-brutal-lg
+           active:translate-x-1 active:translate-y-1 active:shadow-brutal-xs;
+  }
+
+  /* Primary action button. */
+  .brutal-btn {
+    @apply inline-flex cursor-pointer items-center justify-center gap-2
+           border-4 border-ink bg-acid px-6 py-3 font-display text-base
+           font-bold uppercase tracking-tight text-ink shadow-brutal-sm
+           transition-all duration-200 ease-out
+           hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal
+           active:translate-x-0.5 active:translate-y-0.5 active:shadow-none
+           disabled:pointer-events-none disabled:opacity-40;
+  }
+
+  /* Inverted variant — inverts on hover. */
+  .brutal-btn-invert {
+    @apply bg-ink text-paper hover:bg-electric hover:text-paper;
+  }
+
+  /* Oversized section heading. */
+  .brutal-heading {
+    @apply font-display text-4xl leading-[0.9] font-bold uppercase
+           tracking-tighter sm:text-6xl lg:text-7xl;
+  }
+
+  /* Monospace eyebrow / label above headings. */
+  .brutal-label {
+    @apply font-mono text-xs font-bold uppercase tracking-[0.25em];
+  }
+
+  /* Visible grid-line backdrop. */
+  .brutal-grid-bg {
+    background-image:
+      linear-gradient(to right, rgba(10, 10, 10, 0.08) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(10, 10, 10, 0.08) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  /* Same grid, light lines — for use over photos and dark surfaces. */
+  .brutal-grid-bg-light {
+    background-image:
+      linear-gradient(to right, rgba(250, 250, 250, 0.12) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(250, 250, 250, 0.12) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  /* Full-bleed marquee ticker track.
+     Direction is applied by the component (animate-marquee /
+     animate-marquee-rev) so the two never fight over CSS order. */
+  .marquee-track {
+    @apply flex w-max will-change-transform;
+  }
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+}
+
+/* ============================================================
+   LENIS  (required stylesheet rules)
+   ============================================================ */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* ============================================================
+   ACCESSIBILITY — respect reduced-motion
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

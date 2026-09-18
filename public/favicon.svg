@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Fallback favicon: badge kelas, digambar vektor.
+       Dipakai kalau file PNG hasil konversi logo belum ada. -->
+  <rect width="64" height="64" fill="#fafafa"/>
+  <rect x="2" y="2" width="60" height="60" fill="none" stroke="#0a0a0a" stroke-width="4"/>
+  <rect x="8" y="8" width="8" height="8" fill="#0a0a0a"/>
+  <text x="32" y="40" font-family="'Space Grotesk',Arial,sans-serif" font-size="26"
+        font-weight="700" text-anchor="middle" fill="#0a0a0a" letter-spacing="-1">XII</text>
+  <rect x="10" y="46" width="44" height="7" fill="#ffe600"/>
+  <text x="32" y="53" font-family="'Space Grotesk',Arial,sans-serif" font-size="7"
+        font-weight="700" text-anchor="middle" fill="#0a0a0a" letter-spacing="1">RPL 1</text>
+</svg>
