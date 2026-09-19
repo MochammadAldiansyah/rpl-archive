@@ -150,7 +150,7 @@ const STATS = [
       <p
         class="self-start border-4 border-paper bg-ink/80 px-3 py-1 font-mono text-xs tracking-wider text-paper"
       >
-        FOTO ASLI · XII RPL 1 · {{ TOTAL_STUDENTS }} SISWA
+        Orang-Orangan Erpeel
       </p>
     </div>
   </section>

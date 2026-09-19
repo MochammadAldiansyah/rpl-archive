@@ -13,3 +13,17 @@ dist-ssr
 .idea
 *.log
 npm-debug.log*
+
+# ⚠️ DATA PRIBADI — jangan pernah di-commit / di-push.
+# dummy.jpeg = daftar penilaian siswa (nama + nilai). Bukan aset website.
+dummy.jpeg
+
+# Duplikat di root; file asli ada di src/assets/images/
+/logo.jpeg
+/12rpl.jpeg
+
+# Hasil generate lokal (di-commit manual kalau sudah dibuat)
+# public/favicon-*.png
+# public/apple-touch-icon.png
+# public/android-chrome-*.png
+# public/og-image.jpg

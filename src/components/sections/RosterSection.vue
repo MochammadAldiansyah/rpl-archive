@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 
 import SectionHeading from '@/components/ui/SectionHeading.vue'
+import StudentModal from '@/components/ui/StudentModal.vue'
 import { students } from '@/data/students'
 import { getInitials, normalise, padIndex } from '@/utils/format'
 
@@ -40,6 +41,17 @@ const filtered = computed(() => {
     normalise(`${s.name} ${s.nickname} ${s.role} ${s.skills.join(' ')}`).includes(q),
   )
 })
+
+// --- Modal ---------------------------------------------------------------
+const selected = ref(null)
+
+const openStudent = (student) => {
+  selected.value = student
+}
+
+const closeModal = () => {
+  selected.value = null
+}
 </script>
 
 <template>
@@ -68,56 +80,82 @@ const filtered = computed(() => {
         </p>
       </div>
 
-      <!-- Cards -->
+      <!--
+        Equal-height cards:
+        Grid rows already stretch their items to the tallest cell, but the
+        <li> is the grid item — the <button> inside it has no height of
+        its own. `flex` on the <li> + `h-full` on the button makes it
+        fill, so every card matches its row instead of hugging content.
+
+        Each card is a real <button>, so keyboard users can tab through
+        the roster and open details with Enter/Space.
+      -->
       <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        <li
-          v-for="(student, index) in filtered"
-          :key="student.id"
-          class="group brutal-box brutal-interactive flex flex-col p-0"
-        >
-          <!-- Colour bar -->
-          <div class="h-3 border-b-4 border-ink" :class="accentOf(student.accent).bar" />
+        <li v-for="student in filtered" :key="student.id" class="flex">
+          <button
+            type="button"
+            class="group brutal-box brutal-interactive flex h-full w-full cursor-pointer flex-col p-0 text-left"
+            :aria-label="`Lihat detail ${student.name}`"
+            @click="openStudent(student)"
+          >
+            <!-- Colour bar -->
+            <div class="h-3 border-b-4 border-ink" :class="accentOf(student.accent).bar" />
 
-          <div class="flex flex-1 flex-col p-5">
-            <div class="flex items-start justify-between gap-3">
-              <span
-                class="flex h-14 w-14 shrink-0 items-center justify-center border-4 border-ink font-display text-xl font-bold transition-transform duration-200 group-hover:-rotate-6"
-                :class="accentOf(student.accent).avatar"
+            <div class="flex flex-1 flex-col p-5">
+              <div class="flex items-start justify-between gap-3">
+                <span
+                  class="flex h-14 w-14 shrink-0 items-center justify-center border-4 border-ink font-display text-xl font-bold transition-transform duration-200 group-hover:-rotate-6"
+                  :class="accentOf(student.accent).avatar"
+                >
+                  {{ getInitials(student.name) }}
+                </span>
+                <!-- student.number is the real absen number, so it stays
+                     correct while the list is filtered. -->
+                <span class="font-mono text-xs text-ink/40">
+                  {{ padIndex(student.number) }}
+                </span>
+              </div>
+
+              <!--
+                min-h reserves two lines so a short name ("Fajar
+                Nugroho") and a long one ("Mochammad Nindar Deo
+                Praditya") still line their role badge up.
+              -->
+              <h3
+                class="mt-4 min-h-[2.5em] font-display text-xl leading-tight font-bold tracking-tight uppercase"
               >
-                {{ getInitials(student.name) }}
-              </span>
-              <span class="font-mono text-xs text-ink/40">
-                {{ padIndex(index + 1) }}
-              </span>
+                {{ student.name }}
+              </h3>
+
+              <p
+                class="mt-2 inline-block self-start border-2 border-ink px-2 py-0.5 font-mono text-[0.65rem] font-bold uppercase tracking-wider"
+                :class="accentOf(student.accent).role"
+              >
+                {{ student.role }}
+              </p>
+
+              <p class="mt-4 flex-1 font-mono text-xs leading-relaxed text-ink/60">
+                “{{ student.quote }}”
+              </p>
+
+              <ul class="mt-4 flex flex-wrap gap-2">
+                <li
+                  v-for="skill in student.skills"
+                  :key="skill"
+                  class="border-2 border-ink px-2 py-0.5 font-mono text-[0.65rem] font-bold uppercase transition-colors group-hover:bg-ink group-hover:text-paper"
+                >
+                  {{ skill }}
+                </li>
+              </ul>
+
+              <!-- Hover affordance -->
+              <p
+                class="mt-4 font-mono text-[0.65rem] font-bold tracking-widest uppercase opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100"
+              >
+                Klik untuk detail →
+              </p>
             </div>
-
-            <h3
-              class="mt-4 font-display text-xl leading-tight font-bold tracking-tight uppercase"
-            >
-              {{ student.name }}
-            </h3>
-
-            <p
-              class="mt-2 inline-block self-start border-2 border-ink px-2 py-0.5 font-mono text-[0.65rem] font-bold uppercase tracking-wider"
-              :class="accentOf(student.accent).role"
-            >
-              {{ student.role }}
-            </p>
-
-            <p class="mt-4 flex-1 font-mono text-xs leading-relaxed text-ink/60">
-              “{{ student.quote }}”
-            </p>
-
-            <ul class="mt-4 flex flex-wrap gap-2">
-              <li
-                v-for="skill in student.skills"
-                :key="skill"
-                class="border-2 border-ink px-2 py-0.5 font-mono text-[0.65rem] font-bold uppercase transition-colors group-hover:bg-ink group-hover:text-paper"
-              >
-                {{ skill }}
-              </li>
-            </ul>
-          </div>
+          </button>
         </li>
       </ul>
 
@@ -129,5 +167,12 @@ const filtered = computed(() => {
         Tidak ada yang cocok. Coba kata kunci lain.
       </p>
     </div>
+
+    <!-- Modal -->
+    <StudentModal
+      :student="selected"
+      :total="students.length"
+      @close="closeModal"
+    />
   </section>
 </template>

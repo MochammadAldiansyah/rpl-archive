@@ -121,13 +121,58 @@ pada file yang sama.
 Semua data palsu terisolasi di `src/data/`:
 
 - **`students.js`** — daftar **45 siswa**. Ditulis sebagai tuple
-  `[nama, panggilan, jabatan, skill[], quote, accent]` lalu di-map,
-  jadi mengganti data cukup mengedit satu baris per siswa.
+  `[nama, panggilan, jabatan, skill[], quote, accent, detail?]` lalu
+  di-map, jadi mengganti data cukup mengedit satu baris per siswa.
   `TOTAL_STUDENTS` diekspor dan dipakai hero stat — angka di hero
   otomatis ikut berubah, tidak akan basi.
 - **`organisation.js`** — struktur organisasi kelas.
 - **`gallery.js`** — slot galeri. Tambahkan `src: '/images/foo.jpg'`
   pada sebuah item dan gambarnya otomatis menggantikan blok warna.
+
+## Modal Detail Siswa
+
+Klik salah satu kartu di section **Daftar Anggota** untuk membuka modal
+berisi detail lengkap: foto/avatar di kiri, informasi di kanan.
+
+### Mengisi detail siswa
+
+Elemen **ke-7** pada tuple `students.js` bersifat opsional:
+
+```js
+[
+  'Abiyan Abdhul Riesky', 'Abiyan', 'Ketua Kelas',
+  ['Vue', 'Laravel'], 'Kode rapi, hidup rapi.', 'acid',
+  {                                    // ← detail (opsional)
+    photo: '/images/siswa/abiyan.jpg', // taruh di public/images/siswa/
+    birthDate: '12 Maret 2008',
+    hobby: 'Futsal',
+    aspiration: 'Backend Engineer',
+    instagram: 'abiyan.r',             // tanpa @ juga boleh
+    github: 'abiyanr',
+  },
+],
+```
+
+Field yang tidak diisi otomatis tampil sebagai `—`. Kalau `photo` kosong,
+modal menampilkan **avatar inisial** dengan warna accent siswa — jadi
+tidak pernah ada gambar rusak.
+
+**Untuk menambahkan foto:** buat folder `public/images/siswa/`, taruh
+fotonya di sana, lalu isi `photo: '/images/siswa/namafile.jpg'`.
+Foto di `public/` dirujuk dengan path absolut (bukan `import`), karena
+path-nya disimpan sebagai string di data — bukan nilai yang di-import.
+
+### Perilaku modal
+
+| Aspek | Detail |
+|---|---|
+| Animasi | *Brutalist slam* — panel masuk membesar + miring, lalu snap tegak |
+| Baris info | Muncul berurutan (stagger 60ms) dari kiri |
+| Tutup | Tombol, klik area gelap, atau `Esc` |
+| Fokus | Terkunci di dalam modal saat terbuka (Tab tidak keluar) |
+| Scroll | Lenis di-`stop()` saat modal terbuka, `start()` saat ditutup |
+| Aksesibilitas | `role="dialog"`, `aria-modal`, fokus kembali ke kartu asal |
+| Reduced motion | Semua gerakan dimatikan, hanya fade |
 
 ### Catatan `accent`
 

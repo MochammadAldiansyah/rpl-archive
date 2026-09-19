@@ -1,0 +1,31 @@
+# Dependencies & build output — Vercel install & build sendiri.
+node_modules
+dist
+dist-ssr
+
+# VCS & editor
+.git
+.gitignore
+.vscode
+.idea
+
+# Log & env
+*.log
+npm-debug.log*
+.env
+.env.*
+
+# ⚠️ Data pribadi — JANGAN pernah di-upload.
+# dummy.jpeg = daftar penilaian siswa (nama + nilai). Bukan aset website.
+dummy.jpeg
+
+# Duplikat: file asli sudah ada di src/assets/images/
+logo.jpeg
+12rpl.jpeg
+
+# Skrip pengembangan — tidak diperlukan saat build Vercel.
+# (favicon PNG sebaiknya di-generate lokal lalu di-commit)
+scripts
+
+# Dokumentasi
+README.md

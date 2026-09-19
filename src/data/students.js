@@ -5,7 +5,21 @@
  * ⚠️ CATATAN: `skills`, `quote`, dan `accent` di bawah ini MASIH MOCK /
  * placeholder. Ganti sesuai data asli masing-masing siswa.
  *
- * Format: [nama, panggilan, jabatan, skill[], quote, accent]
+ * Format: [nama, panggilan, jabatan, skill[], quote, accent, detail?]
+ *
+ * Elemen ke-7 (`detail`) OPSIONAL. Isi kalau mau melengkapi modal:
+ *
+ *   {
+ *     photo:      '/images/siswa/nama.jpg',  // taruh di public/images/siswa/
+ *     birthDate:  '12 Maret 2008',
+ *     hobby:      'Futsal',
+ *     aspiration: 'Backend Engineer',
+ *     instagram:  '@username',               // tanpa @ juga boleh
+ *     github:     'username',
+ *   }
+ *
+ * Field yang tidak diisi akan tampil sebagai "—" di modal (foto jatuh
+ * ke avatar inisial). Tidak masalah kalau detail belum ada.
  *
  * `accent` WAJIB salah satu kunci di ACCENTS pada RosterSection.vue
  * (acid | electric | blood | slime). Tailwind tidak bisa membaca class
@@ -65,15 +79,39 @@ const RAW = [
   ['Zuumar Izzatul Zidna Fann', 'Zuumar', 'Anggota', ['React Native', 'Expo'], 'Satu basis kode, dua toko aplikasi.', 'electric'],
 ]
 
+/** Field detail yang dikenali modal — dipakai untuk normalisasi. */
+const DETAIL_KEYS = [
+  'photo',
+  'birthDate',
+  'hobby',
+  'aspiration',
+  'instagram',
+  'github',
+]
+
+/** Buang key yang nilainya kosong, supaya modal tahu mana yang "—". */
+function cleanDetail(detail) {
+  if (!detail) return {}
+  return Object.fromEntries(
+    DETAIL_KEYS.filter((key) => {
+      const value = detail[key]
+      return value != null && String(value).trim() !== ''
+    }).map((key) => [key, String(detail[key]).trim()]),
+  )
+}
+
 export const students = RAW.map(
-  ([name, nickname, role, skills, quote, accent], index) => ({
+  ([name, nickname, role, skills, quote, accent, detail], index) => ({
     id: index + 1,
+    // Nomor absen 1–45, ditampilkan sebagai "01".."45".
+    number: index + 1,
     name,
     nickname,
     role,
     skills,
     quote,
     accent,
+    ...cleanDetail(detail),
   }),
 )
 

@@ -2,6 +2,7 @@
  * Generate favicon + PWA icons from the class logo.
  *
  * Usage:
+ *   npm install --no-save sharp
  *   npm run icons
  *
  * Reads  : src/assets/images/logo.jpeg
@@ -12,8 +13,12 @@
  *          public/android-chrome-512x512.png
  *          public/og-image.jpg               (1200x630, from the class photo)
  *
- * sharp is installed as a devDependency by this script on first run
- * (`npm run icons` triggers `npm i -D sharp` if it is missing).
+ * ⚠️ Install sharp dengan `--no-save` — JANGAN masuk package.json.
+ * sharp mengunduh binary native per-platform, dan kalau ada di
+ * devDependencies maka Vercel ikut meng-install-nya saat build,
+ * yang membuat deploy jauh lebih lambat tanpa manfaat apa pun.
+ *
+ * Hasil PNG-nya di-commit ke git, jadi Vercel tidak perlu sharp.
  */
 import { readFile, writeFile, mkdir } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
@@ -40,8 +45,9 @@ try {
 } catch {
   console.error(
     '\n✖ sharp tidak terpasang.\n' +
-      '  Jalankan:  npm install -D sharp\n' +
-      '  lalu ulangi: npm run icons\n',
+      '  Jalankan:  npm install --no-save sharp\n' +
+      '  lalu ulangi: npm run icons\n' +
+      '\n  (--no-save penting: agar tidak memperlambat build Vercel)\n',
   )
   process.exit(1)
 }
