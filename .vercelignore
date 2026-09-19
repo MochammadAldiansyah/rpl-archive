@@ -17,15 +17,20 @@ npm-debug.log*
 
 # ⚠️ Data pribadi — JANGAN pernah di-upload.
 # dummy.jpeg = daftar penilaian siswa (nama + nilai). Bukan aset website.
-dummy.jpeg
+# Prefix "/" supaya hanya cocok di root, bukan di dalam src/.
+/dummy.jpeg
 
-# Duplikat: file asli sudah ada di src/assets/images/
-logo.jpeg
-12rpl.jpeg
+# Duplikat di ROOT saja. Prefix "/" wajib: tanpa itu pola ini cocok di
+# semua level direktori dan ikut membuang src/assets/images/logo.jpeg —
+# yang justru dibutuhkan saat build (ENOENT).
+/logo.jpeg
+/12rpl.jpeg
 
 # Skrip pengembangan — tidak diperlukan saat build Vercel.
 # (favicon PNG sebaiknya di-generate lokal lalu di-commit)
-scripts
+# Prefix "/" supaya tidak ikut membuang folder bernama "scripts"
+# di dalam src/ kalau nanti ada.
+/scripts
 
 # Dokumentasi
-README.md
+/README.md
