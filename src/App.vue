@@ -3,6 +3,7 @@ import { onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
 
 import MainLayout from '@/layouts/MainLayout.vue'
+import AppPreloader from '@/components/ui/AppPreloader.vue'
 import { destroyLenis, initLenis } from '@/composables/useLenis'
 
 // Boot Lenis once, before the first paint of any view.
@@ -15,6 +16,21 @@ const route = useRoute()
 </script>
 
 <template>
+  <!--
+    The preloader sits OUTSIDE MainLayout and outside the route
+    transition on purpose:
+
+    • Outside MainLayout, so it is not inside the element that gets
+      scrolled or transformed — a fixed overlay inside a transformed
+      ancestor would be positioned relative to that ancestor.
+    • Outside the RouterView transition, so it never participates in a
+      page change. It is a one-per-session boot screen, not a page.
+
+    It renders on top of everything at z-200 and lifts away, revealing
+    the page that was already mounted and painted underneath.
+  -->
+  <AppPreloader />
+
   <MainLayout>
     <!--
       ⚠️ The wrapping <div> and its :key are load-bearing.
