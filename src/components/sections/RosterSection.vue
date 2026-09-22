@@ -94,17 +94,23 @@ const closeModal = () => {
         <li v-for="student in filtered" :key="student.id" class="flex">
           <button
             type="button"
-            class="group brutal-box brutal-interactive flex h-full w-full cursor-pointer flex-col p-0 text-left"
+            class="group brutal-box brutal-interactive flex h-full w-full cursor-pointer flex-col overflow-hidden p-0 text-left"
             :aria-label="`Lihat detail ${student.name}`"
             @click="openStudent(student)"
           >
-            <!-- Colour bar -->
+            <!--
+              Colour bar.
+              The card is rounded and this bar is flush with the top
+              edge, so `overflow-hidden` on the button is required —
+              without it the bar's square corners poke out over the
+              rounded ones.
+            -->
             <div class="h-3 border-b-4 border-ink" :class="accentOf(student.accent).bar" />
 
             <div class="flex flex-1 flex-col p-5">
               <div class="flex items-start justify-between gap-3">
                 <span
-                  class="flex h-14 w-14 shrink-0 items-center justify-center border-4 border-ink font-display text-xl font-bold transition-transform duration-200 group-hover:-rotate-6"
+                  class="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border-4 border-ink font-display text-xl font-bold transition-transform duration-200 group-hover:-rotate-6"
                   :class="accentOf(student.accent).avatar"
                 >
                   {{ getInitials(student.name) }}
@@ -128,7 +134,7 @@ const closeModal = () => {
               </h3>
 
               <p
-                class="mt-2 inline-block self-start border-2 border-ink px-2 py-0.5 font-mono text-[0.65rem] font-bold uppercase tracking-wider"
+                class="brutal-pill mt-2 self-start border-2 px-2 py-0.5 text-[0.65rem] tracking-wider"
                 :class="accentOf(student.accent).role"
               >
                 {{ student.role }}
@@ -142,7 +148,7 @@ const closeModal = () => {
                 <li
                   v-for="skill in student.skills"
                   :key="skill"
-                  class="border-2 border-ink px-2 py-0.5 font-mono text-[0.65rem] font-bold uppercase transition-colors group-hover:bg-ink group-hover:text-paper"
+                  class="rounded-[var(--radius-pill)] border-2 border-ink px-2 py-0.5 font-mono text-[0.65rem] font-bold uppercase transition-colors group-hover:bg-ink group-hover:text-paper"
                 >
                   {{ skill }}
                 </li>

@@ -17,7 +17,7 @@ export const site = {
   description:
     'Website resmi kelas XII RPL 1 (Rekayasa Perangkat Lunak) SMK Antartika 1 Sidoarjo. Profil kelas, struktur organisasi, 45 siswa, dan galeri momen.',
   locale: 'id_ID',
-  themeColor: '#ffe600',
+  themeColor: '#ffd93d',
   school: {
     name: 'SMK Antartika 1 Sidoarjo',
     address: {

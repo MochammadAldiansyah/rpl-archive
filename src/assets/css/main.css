@@ -1,33 +1,57 @@
 @import 'tailwindcss';
 
 /* ============================================================
-   BRUTALIST DESIGN TOKENS
+   NEO-BRUTALIST DESIGN TOKENS
    Tailwind v4 exposes every token below as a utility,
    e.g. --color-acid  ->  bg-acid / text-acid / border-acid
         --shadow-brutal ->  shadow-brutal
         --font-display  ->  font-display
+
+   ── Brutalism vs Neo-brutalism ──────────────────────────────
+   Both keep the thick border and the hard, blur-free shadow.
+   The difference is temperament:
+
+     Brutalism      sharp 90° corners, sterile white, deliberately
+                    raw and confrontational
+     Neo-brutalism  rounded corners, warm cream ground, playful
+                    colour — the same skeleton, friendlier face
+
+   So the changes here are: radius tokens, a warmer ground, and a
+   slightly softer black. The border weight and the zero-blur shadow
+   are deliberately UNCHANGED — dropping them would make this
+   generic rounded-corner UI, not neo-brutalism.
    ============================================================ */
 @theme {
-  /* --- Core palette: stark, high-contrast, no gradients --- */
-  --color-ink: #0a0a0a; /* pitch black  */
-  --color-paper: #fafafa; /* stark white  */
-  --color-acid: #ffe600; /* vibrant yellow */
-  --color-electric: #2b5cff; /* vibrant blue  */
-  --color-blood: #ff2d2d; /* vibrant red   */
-  --color-slime: #00d46a; /* accent green  */
-  --color-concrete: #c9c9c9; /* muted grey    */
+  /* --- Core palette --- */
+  --color-ink: #1a1a1a; /* off-black — pure #000 reads harsh against cream */
+  --color-paper: #fff8e7; /* warm cream ground, not sterile white */
+  --color-acid: #ffd93d; /* softer, friendlier yellow */
+  --color-electric: #4d7cfe; /* a touch lighter than the brutalist blue */
+  --color-blood: #ff5c5c; /* coral-leaning red */
+  --color-slime: #3ddc97; /* mint-leaning green */
+  --color-concrete: #d4cfc4; /* warm grey, matches the cream ground */
 
   /* --- Typography --- */
   --font-display: 'Space Grotesk', 'Arial Black', sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', 'Courier New', monospace;
 
-  /* --- Harsh, solid, zero-blur shadows --- */
-  --shadow-brutal-xs: 2px 2px 0px 0px #0a0a0a;
-  --shadow-brutal-sm: 4px 4px 0px 0px #0a0a0a;
-  --shadow-brutal: 8px 8px 0px 0px #0a0a0a;
-  --shadow-brutal-lg: 12px 12px 0px 0px #0a0a0a;
-  --shadow-brutal-xl: 16px 16px 0px 0px #0a0a0a;
+  /* --- Harsh, solid, zero-blur shadows ---
+     Still no blur. That is the one thing neo-brutalism never gives up:
+     the shadow stays a flat offset block, not a soft glow. */
+  --shadow-brutal-xs: 2px 2px 0px 0px #1a1a1a;
+  --shadow-brutal-sm: 4px 4px 0px 0px #1a1a1a;
+  --shadow-brutal: 8px 8px 0px 0px #1a1a1a;
+  --shadow-brutal-lg: 12px 12px 0px 0px #1a1a1a;
+  --shadow-brutal-xl: 16px 16px 0px 0px #1a1a1a;
+
+  /* --- Corner radii ---
+     One value per tier, never mixed. Neo-brutalism's rounded corners
+     are its most recognisable trait, so they are tokens rather than
+     hardcoded per component — change the feel from one place. */
+  --radius-card: 1rem; /* 16px — cards, panels, modal */
+  --radius-control: 0.75rem; /* 12px — buttons, inputs, chips */
+  --radius-pill: 9999px; /* fully round — badges, avatars */
 
   /* --- Motion --- */
   --ease-brutal: cubic-bezier(0.22, 1, 0.36, 1);
@@ -69,10 +93,46 @@
     overflow-x: hidden;
   }
 
-  /* Brutalist default: sharp corners everywhere. */
-  * {
-    border-radius: 0;
+  /*
+    ── The single biggest difference from brutalism ──────────────
+    Brutalism sets `border-radius: 0` on everything. Neo-brutalism
+    rounds its corners, and that is what makes it read as playful
+    rather than confrontational.
+
+    Deliberately NOT a universal `*` rule, and deliberately not
+    `section > div`: a broad selector would round layout wrappers and
+    full-bleed containers, which produces stray rounded corners in
+    places that were never meant to be cards.
+
+    Only elements that actually read as surfaces or controls are
+    rounded. Everything else stays square, and the primitive classes
+    below can still override a specific element (a full-circle avatar,
+    for instance) without needing !important.
+  */
+  button,
+  input,
+  textarea,
+  select {
+    border-radius: var(--radius-control);
   }
+
+  article,
+  figure,
+  form,
+  blockquote,
+  dl {
+    border-radius: var(--radius-card);
+  }
+
+  /*
+    Deliberately NO global `img { border-radius }`.
+
+    Most images here are full-bleed artwork — the hero's parallax photo,
+    the gallery fill, the framework logos. Rounding them globally would
+    carve visible notches out of a background that is meant to bleed to
+    the edge. Each image that should be rounded carries its own radius
+    utility instead, so the decision stays local and visible.
+  */
 
   ::selection {
     @apply bg-acid text-ink;
@@ -82,9 +142,10 @@
   :focus-visible {
     outline: 3px solid var(--color-electric);
     outline-offset: 2px;
+    border-radius: var(--radius-control);
   }
 
-  /* Bold, chunky scrollbar. */
+  /* Chunky scrollbar, rounded to match the softer language. */
   ::-webkit-scrollbar {
     width: 14px;
   }
@@ -95,6 +156,7 @@
   ::-webkit-scrollbar-thumb {
     background: var(--color-ink);
     border: 3px solid var(--color-paper);
+    border-radius: var(--radius-pill);
   }
   ::-webkit-scrollbar-thumb:hover {
     background: var(--color-electric);
@@ -103,20 +165,50 @@
 
 /* ============================================================
    COMPONENT PRIMITIVES
-   Reusable brutalist building blocks. Kept small and DRY so
+   Reusable neo-brutalist building blocks. Kept small and DRY so
    section components stay declarative.
    ============================================================ */
 @layer components {
   /* Thick-bordered surface with a solid offset shadow. */
   .brutal-box {
     @apply border-4 border-ink bg-paper shadow-brutal;
+    border-radius: var(--radius-card);
   }
 
-  /* Interactive surface: lifts toward the shadow, shadow collapses. */
+  /*
+    Interactive surface.
+    Neo-brutalism's signature move: the card lifts toward its own
+    shadow as if being picked up off the page, and the shadow grows to
+    match. The shadow stays a hard block — never blurred.
+  */
   .brutal-interactive {
     @apply transition-all duration-200 ease-out
            hover:-translate-x-1 hover:-translate-y-1 hover:shadow-brutal-lg
            active:translate-x-1 active:translate-y-1 active:shadow-brutal-xs;
+  }
+
+  /*
+    Lift + tilt, combined.
+
+    ⚠️ These must be ONE class, not `.brutal-interactive` plus
+    `.brutal-tilt`. Both write the `transform` property on hover, and
+    CSS does not merge two `transform` declarations — the later rule
+    simply wins, so stacking the classes would silently drop one effect.
+
+    Writing the full transform in a single declaration is what lets the
+    card lift AND rotate at the same time.
+  */
+  .brutal-tilt {
+    @apply transition-all duration-200 ease-out;
+  }
+  .brutal-tilt:hover,
+  .brutal-tilt:focus-visible {
+    transform: translate(-4px, -4px) rotate(-1.5deg);
+    box-shadow: 12px 12px 0px 0px var(--color-ink);
+  }
+  .brutal-tilt:active {
+    transform: translate(2px, 2px) rotate(0deg);
+    box-shadow: 2px 2px 0px 0px var(--color-ink);
   }
 
   /* Primary action button. */
@@ -128,6 +220,7 @@
            hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal
            active:translate-x-0.5 active:translate-y-0.5 active:shadow-none
            disabled:pointer-events-none disabled:opacity-40;
+    border-radius: var(--radius-control);
   }
 
   /* Inverted variant — inverts on hover. */
@@ -135,10 +228,21 @@
     @apply bg-ink text-paper hover:bg-electric hover:text-paper;
   }
 
-  /* Oversized section heading. */
+  /*
+    Oversized section heading.
+    Kept upright on purpose: a tilted headline is striking once and
+    irritating by the third section. The hand-placed feel is carried by
+    the cards and badges instead, where a tilt reads as playful rather
+    than as a layout mistake.
+  */
   .brutal-heading {
     @apply font-display text-4xl leading-[0.9] font-bold uppercase
            tracking-tighter sm:text-6xl lg:text-7xl;
+  }
+
+  /* Opt-in static tilt, for the rare element that wants it. */
+  .brutal-tilt-static {
+    transform: rotate(-1deg);
   }
 
   /* Monospace eyebrow / label above headings. */
@@ -146,19 +250,31 @@
     @apply font-mono text-xs font-bold uppercase tracking-[0.25em];
   }
 
+  /*
+    Pill badge.
+    Neo-brutalism loves a fully-rounded chip on a hard-bordered box —
+    the contrast between the round shape and the square border is part
+    of the look.
+  */
+  .brutal-pill {
+    @apply inline-flex items-center border-4 border-ink px-3 py-1
+           font-mono text-xs font-bold uppercase tracking-wider;
+    border-radius: var(--radius-pill);
+  }
+
   /* Visible grid-line backdrop. */
   .brutal-grid-bg {
     background-image:
-      linear-gradient(to right, rgba(10, 10, 10, 0.08) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(10, 10, 10, 0.08) 1px, transparent 1px);
+      linear-gradient(to right, rgba(26, 26, 26, 0.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(26, 26, 26, 0.07) 1px, transparent 1px);
     background-size: 48px 48px;
   }
 
   /* Same grid, light lines — for use over photos and dark surfaces. */
   .brutal-grid-bg-light {
     background-image:
-      linear-gradient(to right, rgba(250, 250, 250, 0.12) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(250, 250, 250, 0.12) 1px, transparent 1px);
+      linear-gradient(to right, rgba(255, 248, 231, 0.12) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 248, 231, 0.12) 1px, transparent 1px);
     background-size: 48px 48px;
   }
 
@@ -203,5 +319,21 @@ html.lenis body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  /*
+    The tilt and the lift are pure decoration — they carry no
+    information. Removed outright rather than shortened, so a user who
+    asked for less motion gets none.
+  */
+  .brutal-tilt:hover,
+  .brutal-tilt:focus-visible,
+  .brutal-tilt:active,
+  .brutal-interactive:hover,
+  .brutal-interactive:active,
+  .brutal-btn:hover,
+  .brutal-btn:active,
+  .brutal-tilt-static {
+    transform: none !important;
   }
 }

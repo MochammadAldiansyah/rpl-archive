@@ -9,7 +9,7 @@
  * remains, so the strip degrades gracefully instead of showing a
  * broken-image icon.
  *
- * Colour is fixed to ink (#0a0a0a) because every tile has a light
+ * Colour is fixed to ink (#1a1a1a) because every tile has a light
  * background (paper, turning acid on hover) — readable on both.
  *
  * To add a framework: add its Simple Icons slug, e.g. "nextdotjs".
@@ -21,7 +21,7 @@ const props = defineProps({
   size: { type: [Number, String], default: 32 },
 })
 
-const src = `https://cdn.simpleicons.org/${props.name}/0a0a0a`
+const src = `https://cdn.simpleicons.org/${props.name}/1a1a1a`
 </script>
 
 <template>

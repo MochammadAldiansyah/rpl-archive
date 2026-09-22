@@ -35,7 +35,7 @@ const accentOf = (key) => ACCENTS[key] ?? ACCENTS.concrete
         <figure
           v-for="(item, index) in galleryItems"
           :key="item.id"
-          class="group brutal-box brutal-interactive relative flex flex-col justify-between overflow-hidden p-5"
+          class="group brutal-box brutal-tilt relative flex flex-col justify-between overflow-hidden p-5"
           :class="[accentOf(item.accent).surface, item.span]"
         >
           <!-- Real photo drops in here later; the colour block is the fallback. -->
@@ -53,7 +53,7 @@ const accentOf = (key) => ACCENTS[key] ?? ACCENTS.concrete
           >
             <div class="flex items-start justify-between gap-3">
               <span
-                class="border-4 border-current px-2 py-0.5 font-mono text-[0.65rem] font-bold uppercase tracking-widest"
+                class="brutal-pill border-current px-2 py-0.5 text-[0.65rem] tracking-widest"
               >
                 {{ item.tag }}
               </span>

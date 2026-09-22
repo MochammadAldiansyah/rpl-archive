@@ -148,7 +148,7 @@ onBeforeUnmount(() => {
           role="dialog"
           aria-modal="true"
           :aria-labelledby="`student-${student.id}-name`"
-          class="slam-panel relative my-auto w-full max-w-4xl border-4 border-ink bg-paper shadow-[12px_12px_0px_0px_rgba(10,10,10,1)]"
+          class="slam-panel relative my-auto w-full max-w-4xl overflow-hidden rounded-[var(--radius-card)] border-4 border-ink bg-paper shadow-[12px_12px_0px_0px_rgba(26,26,26,1)]"
         >
           <!-- Accent strip -->
           <div class="h-3 border-b-4 border-ink" :class="accentOf(student.accent).strip" />
@@ -180,7 +180,7 @@ onBeforeUnmount(() => {
               :class="accentOf(student.accent).panel"
             >
               <div
-                class="aspect-square w-full max-w-[15rem] border-4 border-ink shadow-[8px_8px_0px_0px_rgba(10,10,10,1)]"
+                class="aspect-square w-full max-w-[15rem] overflow-hidden rounded-[var(--radius-card)] border-4 border-ink shadow-[8px_8px_0px_0px_rgba(26,26,26,1)]"
               >
                 <!-- Real photo once `photo` is filled in; initials until then. -->
                 <img
@@ -316,12 +316,12 @@ onBeforeUnmount(() => {
   from {
     opacity: 0;
     transform: scale(1.15) rotate(-2deg);
-    box-shadow: 0 0 0 0 rgba(10, 10, 10, 0);
+    box-shadow: 0 0 0 0 rgba(26, 26, 26, 0);
   }
   to {
     opacity: 1;
     transform: scale(1) rotate(0deg);
-    box-shadow: 12px 12px 0 0 rgba(10, 10, 10, 1);
+    box-shadow: 12px 12px 0 0 rgba(26, 26, 26, 1);
   }
 }
 

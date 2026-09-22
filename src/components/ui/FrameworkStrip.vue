@@ -31,7 +31,7 @@ const FRAMEWORKS = [
         <div
           v-for="item in FRAMEWORKS"
           :key="`${copy}-${item.logo}`"
-          class="mx-3 flex shrink-0 items-center gap-3 border-4 border-paper bg-paper px-5 py-3 transition-colors duration-200 hover:bg-acid"
+          class="mx-3 flex shrink-0 items-center gap-3 rounded-[var(--radius-control)] border-4 border-paper bg-paper px-5 py-3 transition-colors duration-200 hover:bg-acid"
         >
           <FrameworkLogo :name="item.logo" :size="30" />
           <span

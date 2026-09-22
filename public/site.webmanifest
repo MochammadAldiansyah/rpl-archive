@@ -4,8 +4,8 @@
   "description": "Website resmi kelas XII RPL 1 (Rekayasa Perangkat Lunak) SMK Antartika 1 Sidoarjo.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#fafafa",
-  "theme_color": "#ffe600",
+  "background_color": "#fff8e7",
+  "theme_color": "#ffd93d",
   "lang": "id",
   "icons": [
     {

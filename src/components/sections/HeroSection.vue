@@ -124,9 +124,9 @@ useParallax(containerRef, LAYERS)
           style="
             background-image: linear-gradient(
               to top,
-              rgba(10, 10, 10, 0.94) 0%,
-              rgba(10, 10, 10, 0.74) 50%,
-              rgba(10, 10, 10, 0.6) 100%
+              rgba(26, 26, 26, 0.94) 0%,
+              rgba(26, 26, 26, 0.74) 50%,
+              rgba(26, 26, 26, 0.6) 100%
             );
           "
           aria-hidden="true"
@@ -164,7 +164,7 @@ useParallax(containerRef, LAYERS)
             <span class="block">Orang</span>
             <span class="block">Orangan</span>
             <span
-              class="mt-2 inline-block border-4 border-paper bg-acid px-3 text-ink shadow-[8px_8px_0px_0px_rgba(250,250,250,1)]"
+              class="mt-2 inline-block rounded-[var(--radius-card)] border-4 border-paper bg-acid px-3 text-ink shadow-[8px_8px_0px_0px_rgba(255,248,231,1)]"
             >
               Erpeel
             </span>
@@ -189,7 +189,7 @@ useParallax(containerRef, LAYERS)
             alt=""
             loading="eager"
             decoding="async"
-            class="absolute right-4 bottom-6 h-20 w-20 border-4 border-paper object-cover shadow-[6px_6px_0px_0px_rgba(250,250,250,1)] sm:right-8 sm:bottom-10 sm:h-28 sm:w-28"
+            class="absolute right-4 bottom-6 h-20 w-20 rounded-[var(--radius-card)] border-4 border-paper object-cover shadow-[6px_6px_0px_0px_rgba(255,248,231,1)] sm:right-8 sm:bottom-10 sm:h-28 sm:w-28"
           />
         </div>
 
@@ -206,8 +206,8 @@ useParallax(containerRef, LAYERS)
           style="
             background-image: linear-gradient(
               to top,
-              #0a0a0a 0%,
-              rgba(10, 10, 10, 0) 100%
+              #1a1a1a 0%,
+              rgba(26, 26, 26, 0) 100%
             );
           "
           aria-hidden="true"
@@ -218,10 +218,10 @@ useParallax(containerRef, LAYERS)
       <div
         class="pointer-events-none absolute inset-x-0 top-0 flex flex-wrap items-center justify-center gap-3 px-4 pt-6 sm:pt-8"
       >
-        <p class="brutal-label border-4 border-paper bg-blood px-3 py-1 text-paper">
+        <p class="brutal-label brutal-pill border-paper bg-blood px-3 py-1 text-paper">
           // SMK ANTARTIKA 1 SIDOARJO · REKAYASA PERANGKAT LUNAK
         </p>
-        <p class="brutal-label border-4 border-paper bg-ink px-3 py-1 text-paper">
+        <p class="brutal-label brutal-pill border-paper bg-ink px-3 py-1 text-paper">
           EST. 2026
         </p>
       </div>
@@ -264,7 +264,7 @@ useParallax(containerRef, LAYERS)
 
         <!-- Stat strip -->
         <dl
-          class="grid grid-cols-3 divide-x-4 divide-ink border-4 border-ink bg-paper shadow-[8px_8px_0px_0px_rgba(250,250,250,1)]"
+          class="grid grid-cols-3 divide-x-4 divide-ink overflow-hidden rounded-[var(--radius-card)] border-4 border-ink bg-paper shadow-[8px_8px_0px_0px_rgba(255,248,231,1)]"
         >
           <div v-for="stat in STATS" :key="stat.label" class="px-4 py-5 sm:px-6">
             <dt class="brutal-label text-ink/50">{{ stat.label }}</dt>
@@ -278,7 +278,7 @@ useParallax(containerRef, LAYERS)
 
         <!-- Caption badge -->
         <p
-          class="self-start border-4 border-paper bg-ink/80 px-3 py-1 font-mono text-xs tracking-wider text-paper"
+          class="brutal-pill self-start border-paper bg-ink/80 px-3 py-1 font-mono text-xs tracking-wider text-paper"
         >
           Orang-Orangan Erpeel
         </p>

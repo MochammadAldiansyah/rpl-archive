@@ -42,7 +42,14 @@ const onSubmit = async () => {
             <span class="border-4 border-ink bg-ink px-1 text-acid">kejar deadline</span>.
           </p>
 
-          <dl class="brutal-box mt-8 divide-y-4 divide-ink bg-paper">
+          <!--
+            `overflow-hidden` clips the row dividers to the rounded
+            corners; without it the first and last divider lines run
+            straight through the curve.
+          -->
+          <dl
+            class="brutal-box mt-8 divide-y-4 divide-ink overflow-hidden bg-paper"
+          >
             <div
               v-for="item in CONTACT"
               :key="item.label"
@@ -86,7 +93,7 @@ const onSubmit = async () => {
           <p
             v-if="serverError"
             role="alert"
-            class="mt-5 border-4 border-blood bg-blood/10 p-4 font-mono text-sm font-bold text-blood"
+            class="mt-5 rounded-[var(--radius-control)] border-4 border-blood bg-blood/10 p-4 font-mono text-sm font-bold text-blood"
           >
             {{ serverError }}
           </p>

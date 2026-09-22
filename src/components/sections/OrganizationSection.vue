@@ -42,7 +42,7 @@ const accentOf = (key) => ACCENTS[key] ?? ACCENTS.paper
         <article
           v-for="person in organisation"
           :key="person.id"
-          class="border-4 border-paper p-6 shadow-[8px_8px_0px_0px_rgba(250,250,250,1)] transition-all duration-200 ease-out hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[14px_14px_0px_0px_rgba(250,250,250,1)] active:translate-x-1 active:translate-y-1 active:shadow-[2px_2px_0px_0px_rgba(250,250,250,1)]"
+          class="rounded-[var(--radius-card)] border-4 border-paper p-6 shadow-[8px_8px_0px_0px_rgba(255,248,231,1)] transition-all duration-200 ease-out hover:-translate-x-1 hover:-translate-y-1 hover:rotate-[-1.5deg] hover:shadow-[14px_14px_0px_0px_rgba(255,248,231,1)] active:translate-x-1 active:translate-y-1 active:rotate-0 active:shadow-[2px_2px_0px_0px_rgba(255,248,231,1)]"
           :class="[
             accentOf(person.accent).surface,
             person.lead && 'sm:col-span-2',
@@ -50,13 +50,13 @@ const accentOf = (key) => ACCENTS[key] ?? ACCENTS.paper
         >
           <div class="flex items-start justify-between gap-4">
             <span
-              class="border-4 border-current px-3 py-1 font-mono text-xs font-bold uppercase tracking-[0.2em]"
+              class="brutal-pill border-current px-3 py-1 text-xs tracking-[0.2em]"
             >
               {{ person.role }}
             </span>
             <span
               v-if="person.lead"
-              class="border-4 border-ink px-3 py-1 font-mono text-xs font-bold uppercase"
+              class="brutal-pill border-ink px-3 py-1 text-xs"
               :class="accentOf(person.accent).badge"
             >
               PIMPINAN

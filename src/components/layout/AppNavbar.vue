@@ -82,7 +82,7 @@ onBeforeUnmount(() => window.removeEventListener('scroll', onScroll))
         <img
           :src="classLogo"
           alt="Logo XII RPL — SMK Antartika 1 Sidoarjo"
-          class="h-11 w-11 border-4 border-ink object-cover transition-transform duration-200 group-hover:-rotate-6 sm:h-12 sm:w-12"
+          class="h-11 w-11 rounded-full border-4 border-ink object-cover transition-transform duration-200 group-hover:-rotate-6 sm:h-12 sm:w-12"
         />
         <span
           class="hidden font-display text-lg font-bold tracking-tighter uppercase sm:block"

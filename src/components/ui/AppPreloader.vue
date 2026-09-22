@@ -47,7 +47,7 @@ const SPINNER_VARIANTS = ['braille-spin', 'aesthetic', 'dots']
 
     <!-- ==================== Terminal window ==================== -->
     <div
-      class="relative w-full max-w-lg border-4 border-paper bg-ink shadow-[12px_12px_0px_0px_rgba(250,250,250,1)]"
+      class="relative w-full max-w-lg overflow-hidden rounded-[var(--radius-card)] border-4 border-paper bg-ink shadow-[12px_12px_0px_0px_rgba(255,248,231,1)]"
     >
       <!-- Title bar -->
       <div

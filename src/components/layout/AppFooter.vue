@@ -43,7 +43,7 @@ const year = new Date().getFullYear()
             <img
               :src="classLogo"
               alt="Logo XII RPL — SMK Antartika 1 Sidoarjo"
-              class="h-16 w-16 border-4 border-paper object-cover sm:h-20 sm:w-20"
+              class="h-16 w-16 rounded-full border-4 border-paper object-cover sm:h-20 sm:w-20"
             />
             <p
               class="font-display text-3xl leading-[0.9] font-bold tracking-tighter uppercase sm:text-4xl"
@@ -67,7 +67,7 @@ const year = new Date().getFullYear()
                 :href="social.href"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="inline-block border-4 border-paper px-4 py-2 font-display text-sm font-bold uppercase tracking-tight transition-all duration-200 hover:-translate-y-1 hover:bg-acid hover:text-ink"
+                class="inline-block rounded-[var(--radius-control)] border-4 border-paper px-4 py-2 font-display text-sm font-bold uppercase tracking-tight transition-all duration-200 hover:-translate-y-1 hover:bg-acid hover:text-ink"
               >
                 {{ social.label }}
               </a>
