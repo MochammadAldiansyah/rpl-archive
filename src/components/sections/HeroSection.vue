@@ -218,7 +218,7 @@ useParallax(containerRef, LAYERS)
       <div
         class="pointer-events-none absolute inset-x-0 top-0 flex flex-wrap items-center justify-center gap-3 px-4 pt-6 sm:pt-8"
       >
-        <p class="brutal-label brutal-pill border-paper bg-blood px-3 py-1 text-paper">
+        <p class="brutal-label brutal-pill border-paper bg-ink px-3 py-1 text-paper">
           // SMK ANTARTIKA 1 SIDOARJO · REKAYASA PERANGKAT LUNAK
         </p>
         <p class="brutal-label brutal-pill border-paper bg-ink px-3 py-1 text-paper">
