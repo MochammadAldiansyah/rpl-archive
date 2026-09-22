@@ -1,4 +1,6 @@
 <script setup>
+import { RouterLink } from 'vue-router'
+
 import MarqueeTicker from '@/components/ui/MarqueeTicker.vue'
 import classLogo from '@/assets/images/logo.jpeg'
 
@@ -7,6 +9,20 @@ const SOCIALS = [
   { label: 'TikTok', href: 'https://tiktok.com' },
   { label: 'YouTube', href: 'https://youtube.com' },
   { label: 'GitHub', href: 'https://github.com' },
+]
+
+/**
+ * Internal links. A footer sitemap is one of the strongest internal
+ * linking signals: it puts every section one click from anywhere, which
+ * helps both crawlers and users who reached a dead end.
+ */
+const PAGES = [
+  { label: 'Beranda', to: '/' },
+  { label: 'Tentang', to: '/#tentang' },
+  { label: 'Struktur', to: '/#struktur' },
+  { label: 'Anggota', to: '/#anggota' },
+  { label: 'Galeri', to: '/#galeri' },
+  { label: 'Kontak', to: '/#kontak' },
 ]
 
 const year = new Date().getFullYear()
@@ -67,6 +83,24 @@ const year = new Date().getFullYear()
             Angkatan {{ year - 1 }}/{{ year }}
           </p>
         </div>
+
+        <!-- Internal sitemap -->
+        <nav
+          aria-label="Peta situs"
+          class="border-t-4 border-paper pt-8 md:col-span-2 lg:col-span-3"
+        >
+          <p class="brutal-label mb-4 text-acid">// Peta Situs</p>
+          <ul class="flex flex-wrap gap-x-6 gap-y-2">
+            <li v-for="page in PAGES" :key="page.to">
+              <RouterLink
+                :to="page.to"
+                class="font-mono text-sm text-concrete underline-offset-4 transition-colors hover:text-acid hover:underline"
+              >
+                {{ page.label }}
+              </RouterLink>
+            </li>
+          </ul>
+        </nav>
       </div>
 
       <div class="border-t-4 border-paper">

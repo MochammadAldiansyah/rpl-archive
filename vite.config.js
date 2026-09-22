@@ -20,7 +20,12 @@ export default defineConfig({
     tailwindcss(),
     sitemap({
       siteUrl: SITE_URL,
-      // Tambahkan route di sini kalau nanti ada halaman baru.
+      /**
+       * Only indexable pages belong here.
+       * Deliberately EXCLUDED: /terima-kasih (a post-submit page with no
+       * standalone value) and every error route — submitting a 404 to
+       * Google is a soft-404 signal.
+       */
       routes: ['/'],
     }),
   ],

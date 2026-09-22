@@ -20,7 +20,7 @@ const { text: rotatingWord } = useTextScramble([
 
 // Derived from the roster so the hero can never drift out of sync.
 const STATS = [
-  { value: '12', label: 'Angkatan' },
+  { value: '-', label: 'Angkatan' },
   { value: String(TOTAL_STUDENTS), label: 'Siswa' },
   { value: '∞', label: 'Baris Kode' },
 ]
