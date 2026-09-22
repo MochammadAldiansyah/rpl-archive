@@ -34,9 +34,8 @@ const STATS = [
  * as being farther away:
  *
  *   layer 1  +20%  class photo + scrim  — far background
- *   layer 2  +14%  accent geometry      — mid background
- *   layer 3  + 9%  the title            — subject
- *   layer 4  + 3%  logo badge + frame   — near foreground
+ *   layer 2  + 9%  the title            — subject
+ *   layer 3  + 3%  class logo           — near foreground
  *
  * ⚠️ These are NOT the reference component's 70/55/40/10 values.
  *
@@ -57,15 +56,13 @@ const STATS = [
  * The 0.04H of headroom is the safety margin. Raising any yPercent here
  * without also growing the layer will re-introduce the gap.
  *
- * The RATIOS between the four values are what create the depth, and those
- * are preserved from the reference (1 : 0.79 : 0.57 : 0.14 ->
- * 1 : 0.70 : 0.45 : 0.15).
+ * The spread between the values is what creates the depth — equal values
+ * would make every layer move as one flat sheet.
  */
 const LAYERS = [
   { layer: '1', yPercent: 20 },
-  { layer: '2', yPercent: 14 },
-  { layer: '3', yPercent: 9 },
-  { layer: '4', yPercent: 3 },
+  { layer: '2', yPercent: 9 },
+  { layer: '3', yPercent: 3 },
 ]
 
 const containerRef = ref(null)
@@ -74,21 +71,22 @@ useParallax(containerRef, LAYERS)
 
 <template>
   <!--
-    PARALLAX HERO
-    =============
-    Structure mirrors the reference component, reimplemented for this
-    project:
+    HERO
+    ====
+    A parallax stage (photo + title + logo, moving at different speeds)
+    followed by a solid body holding the tagline, actions and stats.
 
-      .parallax__header         -> .hero-stage   (the parallax viewport)
-      .parallax__visuals        -> .hero-stage__visuals
-      .parallax__layers         -> [data-parallax-layers]
-      .parallax__layer-img      -> layers 1 / 2 / 4
-      .parallax__layer-title    -> layer 3
-      .parallax__fade           -> .hero-stage__fade (hard edge, not a soft fade)
-      .parallax__content        -> .hero-body   (tagline / actions / stats)
+      .hero-stage          the parallax viewport
+      .hero-stage__visuals the stack the layers live in
+      [data-parallax-layer] marks each layer for useParallax
 
-    The reference's `.osmo-credits` block and its decorative SVG are
-    dropped: they credit the demo's author and have no place here.
+    Three layers only: photo (slowest), title, logo (fastest). An
+    earlier version added a fourth layer of flat colour blocks and a
+    frame border; both sat on top of the photograph and were removed.
+
+    The reference component's `.osmo-credits` block and its decorative
+    SVG are dropped — they credit the demo's author and have no place
+    here.
   -->
   <section id="hero" class="border-b-4 border-ink bg-ink">
     <!-- ==================== PARALLAX STAGE ==================== -->
@@ -107,6 +105,10 @@ useParallax(containerRef, LAYERS)
             end    -> shifts +28%         spans [-4%, 136%]  still covers
           The 4% headroom is the margin. Shrinking this image, or raising
           yPercent for layer 1, will open a gap at the bottom.
+
+          Grayscale is kept very light (0.15) — the photo is the point of
+          this section, and heavy desaturation was making it read as a
+          grey texture rather than a picture of the class.
         -->
         <img
           :src="heroPhoto"
@@ -114,48 +116,47 @@ useParallax(containerRef, LAYERS)
           loading="eager"
           decoding="async"
           data-parallax-layer="1"
-          class="hero-layer absolute -top-[32%] left-0 h-[140%] w-full object-cover object-center contrast-[1.05] grayscale-[0.35]"
+          class="hero-layer absolute -top-[32%] left-0 h-[140%] w-full object-cover object-center contrast-[1.05] grayscale-[0.15]"
         />
 
-        <!-- Layer 1 scrim: keeps the title readable over a busy photo. -->
+        <!--
+          Layer 1 scrim.
+
+          Kept as light as readability allows. An earlier version ran to
+          94% opacity, which effectively erased the photo — the hero read
+          as a dark rectangle with text on it, and the class photo it was
+          supposed to show was invisible.
+
+          Deliberately lightest at the TOP so the students' faces stay
+          visible, darkening toward the bottom where the eyebrow badges
+          and the stage's lower edge need the contrast.
+        -->
         <div
           class="hero-layer absolute -top-[32%] left-0 h-[140%] w-full"
           data-parallax-layer="1"
           style="
             background-image: linear-gradient(
-              to top,
-              rgba(26, 26, 26, 0.94) 0%,
-              rgba(26, 26, 26, 0.74) 50%,
-              rgba(26, 26, 26, 0.6) 100%
+              to bottom,
+              rgba(26, 26, 26, 0.5) 0%,
+              rgba(26, 26, 26, 0.72) 45%,
+              rgba(26, 26, 26, 0.82) 100%
             );
           "
           aria-hidden="true"
         />
 
         <!--
-          Layer 2 — accent geometry instead of a second photo.
-          This is the brutalist substitution: two flat colour blocks on
-          a hard grid rather than another image plane.
+          Layer 2 — the title.
+
+          There is deliberately no decorative layer between the photo
+          and the title. An earlier version placed three flat colour
+          blocks here; they sat directly over the students' faces,
+          competed with the photo for attention, and read as shapes
+          with no reason to exist. The photo is the decoration — it
+          does not need flat colour dropped on top of it.
         -->
         <div
           data-parallax-layer="2"
-          class="hero-layer absolute inset-0"
-          aria-hidden="true"
-        >
-          <span
-            class="absolute top-[14%] -left-[6%] h-24 w-[38%] border-4 border-paper bg-acid/85 sm:h-32 lg:h-40"
-          />
-          <span
-            class="absolute right-[4%] bottom-[22%] h-20 w-[30%] border-4 border-paper bg-electric/85 sm:h-28 lg:h-36"
-          />
-          <span
-            class="absolute top-[8%] right-[10%] h-16 w-16 border-4 border-paper bg-blood/85 sm:h-20 sm:w-20"
-          />
-        </div>
-
-        <!-- Layer 3 — the title. -->
-        <div
-          data-parallax-layer="3"
           class="hero-layer absolute inset-0 flex items-center justify-center px-4"
         >
           <h1
@@ -172,18 +173,18 @@ useParallax(containerRef, LAYERS)
         </div>
 
         <!--
-          Layer 4 — logo badge plus a hard frame.
-          The frame is drawn as a border on an inset box rather than a
-          gradient, because a soft vignette would fight the brutalist
-          edges everywhere else on the page.
+          Layer 3 — the class logo.
+
+          The inset frame that used to live here is gone too: a border
+          tracing the whole viewport reads as a box drawn around the
+          photograph. The logo earns its place — it is the class's own
+          mark, not filler.
         -->
         <div
-          data-parallax-layer="4"
+          data-parallax-layer="3"
           class="hero-layer pointer-events-none absolute inset-0"
           aria-hidden="true"
         >
-          <span class="absolute inset-3 border-4 border-paper/25 sm:inset-5" />
-
           <img
             :src="classLogo"
             alt=""
@@ -194,15 +195,14 @@ useParallax(containerRef, LAYERS)
         </div>
 
         <!--
-          Hard bottom edge: a solid bar the stage resolves into,
-          standing in for the reference's `.parallax__fade`.
-
-          Written as an inline style rather than a Tailwind gradient
-          utility because v4 renamed `bg-gradient-to-*` to
-          `bg-linear-to-*` — this form is correct on every version.
+          Bottom edge.
+          Blends the stage into the solid body below so there is no hard
+          seam. Kept short (h-16) because the scrim above already darkens
+          this area — a tall second gradient on top of it just crushes
+          the bottom of the photo to black.
         -->
         <div
-          class="pointer-events-none absolute inset-x-0 bottom-0 h-24"
+          class="pointer-events-none absolute inset-x-0 bottom-0 h-16"
           style="
             background-image: linear-gradient(
               to top,
@@ -290,7 +290,7 @@ useParallax(containerRef, LAYERS)
 <style scoped>
 /*
   `will-change: transform` promotes each layer to its own compositor
-  layer, so the per-frame translate stays off the main thread. Four
+  layer, so the per-frame translate stays off the main thread. Three
   layers is a safe number to promote; promoting dozens would cost more
   memory than it saves.
 */
