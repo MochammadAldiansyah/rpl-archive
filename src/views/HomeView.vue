@@ -15,11 +15,18 @@ import FrameworkStrip from '@/components/ui/FrameworkStrip.vue'
   <AboutSection />
   <OrganizationSection />
   <RosterSection />
+  <!--
+    The marquee sits AFTER the gallery, not before it.
+    GlyphPortal pins its stage with `position: sticky`, and a full-bleed
+    band directly above would scroll into view mid-pin — visually
+    clipping the effect and adding a scroll anchor that fights the
+    travel. Placing it after keeps the pin uninterrupted.
+  -->
+  <GallerySection />
   <MarqueeTicker
     text="GALERI MOMEN · KELAS 12 RPL"
     surface="bg-electric text-paper"
     reverse
   />
-  <GallerySection />
   <ContactSection />
 </template>

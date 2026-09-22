@@ -1,63 +1,64 @@
 /**
- * MOCK DATA — gallery slots.
+ * Galeri & momen kelas.
  *
- * These are intentionally asset-free: each tile renders as a solid
- * brutalist colour block with a caption, so the layout is final and
- * real photos can be dropped in later without touching the grid.
+ * Foto asli ada di `src/assets/images/galeri/`. Di-import sebagai module
+ * (bukan path string) supaya Vite mem-fingerprint filenya saat build.
  *
- * To use real images: add `src: '/images/moments/foo.jpg'` to an item
- * and GallerySection will render an <img> instead of the colour block.
+ * ⚠️ `2.jpeg` dan `3.jpeg` di folder itu adalah file yang SAMA
+ * (md5 identik), jadi hanya satu yang dipakai. Ganti salah satunya
+ * dengan foto berbeda lalu tambahkan entri baru di bawah kalau mau
+ * menampilkannya.
  *
- * `span` controls the irregular grid placement on large screens.
+ * `span` mengatur penempatan di grid besar; `accent` hanya untuk warna
+ * badge.
  */
+import photo1 from '@/assets/images/galeri/1.jpeg'
+import photo2 from '@/assets/images/galeri/2.jpeg'
+import photo4 from '@/assets/images/galeri/4.jpeg'
+import photo5 from '@/assets/images/galeri/5.jpeg'
+import photo6 from '@/assets/images/galeri/6.jpeg'
+
 export const galleryItems = [
   {
     id: 1,
-    caption: 'Praktikum pertama, error pertama.',
-    tag: 'LAB',
+    src: photo1,
+    caption: 'Dukung teman di lomba solo vocal.',
+    tag: 'LOMBA',
     accent: 'acid',
     span: 'lg:col-span-2 lg:row-span-2',
   },
   {
     id: 2,
-    caption: 'Deadline jam 23:59.',
-    tag: 'SPRINT',
+    src: photo2,
+    caption: 'Latihan bareng sebelum tampil.',
+    tag: 'LATIHAN',
     accent: 'electric',
     span: '',
   },
   {
     id: 3,
-    caption: 'Kopi keempat, entah jam berapa.',
-    tag: 'NGEBUG',
-    accent: 'blood',
-    span: '',
-  },
-  {
-    id: 4,
-    caption: 'Presentasi proyek akhir.',
-    tag: 'DEMO',
+    src: photo4,
+    caption: 'Istirahat di sela pelajaran.',
+    tag: 'ISTIRAHAT',
     accent: 'ink',
     span: 'lg:col-span-2',
   },
   {
-    id: 5,
-    caption: 'Foto bareng sebelum lulus.',
-    tag: 'MOMEN',
+    id: 4,
+    src: photo5,
+    caption: 'Kegiatan kelas di luar jam pelajaran.',
+    tag: 'KEGIATAN',
     accent: 'slime',
     span: '',
   },
   {
-    id: 6,
-    caption: 'Rapat organisasi yang molor.',
-    tag: 'RAPAT',
+    id: 5,
+    src: photo6,
+    caption: 'Foto bersama sebelum pulang.',
+    tag: 'MOMEN',
     accent: 'concrete',
     span: '',
   },
-  {
-    id: 7,
-    caption: 'Turnamen futsal antar jurusan.',
-    tag: 'OLAHRAGA',
-    accent: 'acid',
-    span: 'lg:col-span-2',
-  },
 ]
+
+export const TOTAL_MOMENTS = galleryItems.length
