@@ -24,7 +24,7 @@ import { initLenis } from '@/composables/useLenis'
  */
 
 const STORAGE_KEY = 'xii-rpl:booted'
-const MIN_LOADING_MS = 1100
+const MIN_LOADING_MS = 4500
 const MAX_LOADING_MS = 6000
 
 /**
